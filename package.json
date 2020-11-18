@@ -1,0 +1,26 @@
+{
+  "name": "google-books-search",
+  "version": "1.0.0",
+  "description": "Google Books search application",
+  "repository": "https://github.com/spencer-alan/google-books-search.git",
+  "author": "Spencer Smith",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "cd backend && yarn start",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "start": "yarn dev",
+    "build": "yarn client-build && yarn server-build && node tools/build.js",
+    "client-add": "cd client && yarn add",
+    "client-remove": "cd client && yarn remove",
+    "client-build": "cd client && yarn run build",
+    "server-add": "cd backend && yarn add",
+    "server-remove": "cd backend && yarn remove",
+    "server-build": "cd backend && yarn build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
