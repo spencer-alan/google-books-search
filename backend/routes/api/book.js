@@ -9,3 +9,5 @@ router.route("/")
 // prettier-ignore
 router.route("/:id")
   .post(bookController.deleteBook);
+
+module.exports = router;
