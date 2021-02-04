@@ -1,7 +1,17 @@
-import React from "react";
-import { Grid, Paper, Button, Typography, TextField } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+	Grid,
+	Paper,
+	Button,
+	Typography,
+	TextField,
+	List,
+	ListItem,
+	ListItemText,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
+import API from "../../utils/API.js";
 
 const useStyles = makeStyles((theme) => ({
 	center: {
@@ -32,7 +42,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Search() {
+	const [books, setBooks] = useState([]);
+	const [inputObject, setInputObject] = useState([]);
+
 	const classes = useStyles();
+
+	function handleSubmit(event) {
+		event.preventDefault();
+		searchBooks(inputObject.value);
+	}
+
+	function handleInputChange(event) {
+		const { value } = event.target;
+		setInputObject({ ...inputObject, value });
+	}
+
+	function saveBook(books) {
+		API.saveBook(books)
+			.then((res) => {
+				console.log(res.data);
+			})
+			.catch((err) => console.log(err));
+	}
+
+	function searchBooks(query) {
+		API.getBooks(query)
+			.then((res) => {
+				let bookArray = [];
+				res.data.item.forEach((item) => {
+					bookArray.push({
+						_id: item.id,
+						title: item.volumeInfo.title,
+						description: item.volumeInfo.decription
+							? item.volumeInfo.description
+							: "No Description Available",
+						authors: item.volumeInfo.authors,
+						image: item.volumeInfo.imageLinks,
+						link: item.volumeInfo.infoLink,
+					});
+				});
+				setBooks(bookArray);
+			})
+			.catch((err) => console.log(err));
+	}
 
 	return (
 		<>
@@ -59,11 +111,47 @@ function Search() {
 				<Paper variant="outlined" className={classes.paperFlex}>
 					<Typography variant="h2">Book Search</Typography>
 					<div classname={classes.searchBar}>
-						<TextField label="Search" variant="standard" />
-						<Button className={classes.button}>
+						<TextField
+							label="Search"
+							variant="standard"
+							onChange={handleInputChange}
+						/>
+						<Button className={classes.button} onClick={handleSubmit}>
 							<SearchIcon />
 						</Button>
 					</div>
+				</Paper>
+			</Grid>
+			<Grid>
+				<Paper className={classes.paper}>
+					<Typography variant="h3">Results</Typography>
+					<List>
+						<>
+							{books.map((book, i) => (
+								<ListItem key={book._id} alignItems="flex-start">
+									<Grid container spacing={1}>
+										<Grid item xs={4}>
+											<img src={book.image.thumbnail} alt="Book Cover" />
+										</Grid>
+										<Grid item xs={8}>
+											<Typography variant="h3">{book.title}</Typography>
+											{book.authors ? (
+												<Typography>
+													Written by {book.authors.jpin(", ")}
+												</Typography>
+											) : (
+												<Typography>No Authors</Typography>
+											)}
+											<Typography>{book.description}</Typography>
+											<Button onClick={() => saveBook({ ...book })}>
+												Save
+											</Button>
+										</Grid>
+									</Grid>
+								</ListItem>
+							))}
+						</>
+					</List>
 				</Paper>
 			</Grid>
 		</>
