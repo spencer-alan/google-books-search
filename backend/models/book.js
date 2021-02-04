@@ -10,7 +10,13 @@ const bookSchema = new Schema({
 		type: [],
 		defualt: [""],
 	},
-	description: String,
+	image: {
+		type: String,
+	},
+	description: {
+		type: String,
+		defualt: "No description available",
+	},
 	thumbnail: {
 		type: String,
 		default: "",

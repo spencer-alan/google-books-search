@@ -59,8 +59,8 @@ function Search() {
 		setInputObject({ ...inputObject, value });
 	}
 
-	function saveBook(books) {
-		API.saveBook(books)
+	function saveBook(book) {
+		API.saveBook(book)
 			.then((res) => {
 				console.log(res.data);
 			})
