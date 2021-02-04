@@ -12,13 +12,14 @@
     "start:dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "start:prod": "yarn server",
     "start": "if-env NODE_ENV=production && yarn run start:prod || yarn run start:dev",
-    "build": "yarn client-build",
+    "build": "yarn client-build && yarn server-install",
     "client-add": "cd client && yarn add",
     "client-remove": "cd client && yarn remove",
     "client-build": "cd client && yarn install && yarn run build",
     "server-add": "cd backend && yarn add",
     "server-remove": "cd backend && yarn remove",
     "server-build": "cd backend && yarn build",
+    "server-install": "cd backend && yarn install",
     "heroku-postbuild": "yarn run build"
   },
   "dependencies": {
