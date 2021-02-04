@@ -7,6 +7,7 @@ import {
 	TextField,
 	List,
 	ListItem,
+	Divider,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: {
 		margin: "12px",
-		backgroundColor: "#0080ff",
+	},
+	author: {
+		fontWeight: "bold",
 	},
 }));
 
@@ -67,12 +70,13 @@ function Search() {
 	function searchBooks(query) {
 		API.getBooks(query)
 			.then((res) => {
+				console.log(res);
 				let bookArray = [];
-				res.data.item.forEach((item) => {
+				res.data.items.forEach((item) => {
 					bookArray.push({
 						_id: item.id,
 						title: item.volumeInfo.title,
-						description: item.volumeInfo.decription
+						description: item.volumeInfo.description
 							? item.volumeInfo.description
 							: "No Description Available",
 						authors: item.volumeInfo.authors,
@@ -109,47 +113,59 @@ function Search() {
 			>
 				<Paper variant="outlined" className={classes.paperFlex}>
 					<Typography variant="h2">Book Search</Typography>
-					<div classname={classes.searchBar}>
+					<div className={classes.searchBar}>
 						<TextField
 							label="Search"
 							variant="standard"
 							onChange={handleInputChange}
 						/>
-						<Button className={classes.button} onClick={handleSubmit}>
+						<Button
+							variant="contained"
+							color="primary"
+							className={classes.button}
+							onClick={handleSubmit}
+						>
 							<SearchIcon />
 						</Button>
 					</div>
 				</Paper>
 			</Grid>
-			<Grid>
-				<Paper className={classes.paper}>
+			<Grid container className={classes.wrapper}>
+				<Paper variant="outlined" className={classes.paper}>
 					<Typography variant="h3">Results</Typography>
 					<List>
-						<>
-							{books.map((book, i) => (
+						{books.map((book, i) => (
+							<>
 								<ListItem key={book._id} alignItems="flex-start">
 									<Grid container spacing={1}>
 										<Grid item xs={4}>
 											<img src={book.image.thumbnail} alt="Book Cover" />
 										</Grid>
 										<Grid item xs={8}>
-											<Typography variant="h3">{book.title}</Typography>
+											<Typography variant="h3">{book.title}</Typography> <br />
 											{book.authors ? (
-												<Typography>
-													Written by {book.authors.jpin(", ")}
+												<Typography className={classes.author}>
+													Written by {book.authors.join(", ")}
 												</Typography>
 											) : (
 												<Typography>No Authors</Typography>
-											)}
+											)}{" "}
+											<br />
 											<Typography>{book.description}</Typography>
-											<Button onClick={() => saveBook({ ...book })}>
+											<br />
+											<Button
+												variant="contained"
+												color="primary"
+												onClick={() => saveBook({ ...book })}
+											>
 												Save
 											</Button>
 										</Grid>
 									</Grid>
 								</ListItem>
-							))}
-						</>
+								<Divider key={i} />
+							</>
+						))}
 					</List>
 				</Paper>
 			</Grid>
