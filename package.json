@@ -19,7 +19,7 @@
     "server-add": "cd backend && yarn add",
     "server-remove": "cd backend && yarn remove",
     "server-build": "cd backend && yarn build",
-    "heroku-postbuild": "yarn run build",
+    "heroku-postbuild": "yarn run build"
   },
   "dependencies": {},
   "devDependencies": {
