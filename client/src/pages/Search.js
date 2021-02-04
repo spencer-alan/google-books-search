@@ -7,11 +7,10 @@ import {
 	TextField,
 	List,
 	ListItem,
-	ListItemText,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
-import API from "../../utils/API.js";
+import API from "../utils/API.js";
 
 const useStyles = makeStyles((theme) => ({
 	center: {
