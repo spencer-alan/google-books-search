@@ -10,7 +10,7 @@
     "client": "cd client && yarn start",
     "server": "cd backend && yarn start",
     "start:dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "start:prod": "yarn run backend/server.js",
+    "start:prod": "yarn server",
     "start": "if-env NODE_ENV=production && yarn run start:prod || yarn run start:dev",
     "build": "yarn client-build",
     "client-add": "cd client && yarn add",
