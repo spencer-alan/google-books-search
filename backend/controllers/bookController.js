@@ -5,9 +5,7 @@ const db = require("../models");
 module.exports = {
 	getBook: async (req, res) => {
 		try {
-			const books = await db.Book.find({}).sort({ created_date: -1 });
-			// res.io.emit("bookFound", result.title);
-			// res.send("Books Found")
+			const books = await db.Book.find({});
 			res.status(200).json(books);
 		} catch (err) {
 			res.status(400).json(err);
@@ -15,20 +13,20 @@ module.exports = {
 	},
 	addBook: async (req, res) => {
 		try {
-			const { title, authors, image, description, link } = req.body;
+			console.log(req.body);
+			const { _id, title, authors, image, description, link } = req.body;
 
 			const newBook = new db.Book({
+				_id,
 				title,
-				authors: authors === "No Author Provided" ? [""] : authors,
+				authors,
 				image,
 				description,
 				link,
 			});
 
 			const result = await newBook.save();
-			// console.log(result)
-			// res.io.emit("bookSaved", result.title);
-			// res.send("Book Saved")
+			console.log(result);
 			res.status(200).json(result);
 		} catch (err) {
 			res.status(400).json(err);
@@ -37,8 +35,6 @@ module.exports = {
 	deleteBook: async (req, res) => {
 		try {
 			const result = await db.Book.deleteOne({ _id: req.params.id });
-			// res.io.emit("bookDeleted", result.title);
-			// res.send("Book Deleted")
 			res.status(200).json(result);
 		} catch (err) {
 			res.status(400).json(err);
