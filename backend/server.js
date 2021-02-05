@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
 
 	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+		res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
 	});
 }
 
@@ -32,7 +32,7 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then(() => console.log("MongoDB Connected!"))
-	.catch((err) => console.log("Mongo did not connect: "), err);
+	.catch((err) => console.log(err));
 
 io.on("connection", (socket) => {
 	console.log("a user connected");
