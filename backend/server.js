@@ -24,15 +24,15 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 // Connect to the Mongo DB
-mongoose.connect(
-	process.env.MONGODB_URI || "mongodb://localhost/googlebooklist",
-	{
+mongoose
+	.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooklist", {
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useFindAndModify: false,
 		useUnifiedTopology: true,
-	}
-);
+	})
+	.then(() => console.log("MongoDB Connected!"))
+	.catch((err) => console.log("Mongo did not connect: "), err);
 
 io.on("connection", (socket) => {
 	console.log("a user connected");
