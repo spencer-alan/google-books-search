@@ -1,6 +1,7 @@
 {
   "name": "google-books-search",
   "version": "1.0.0",
+  "homepage": ".",
   "description": "Google Books search application",
   "repository": "https://github.com/spencer-alan/google-books-search.git",
   "author": "Spencer Smith",
